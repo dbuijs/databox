@@ -7,7 +7,7 @@ This is a recipe to set up an RStudio Server and Postgresql database inside Dock
 
 2. Open a terminal on your new Docker VM and make sure you've got enough swap space. R needs a lot of swap space. On Digital Ocean VMs you don't get swap space by default so you need to create a swapfile (this script gives you 2 GB. Adjust as required):
 
-```
+    ```
      #! /bin/sh
      #Create 2GB swapfile and activate
      sudo install -o root -g root -m 0600 /dev/null /swapfile
@@ -17,20 +17,21 @@ This is a recipe to set up an RStudio Server and Postgresql database inside Dock
      echo "/swapfile       swap    swap    auto      0       0" | sudo tee -a /etc/fstab
      sudo sysctl -w vm.swappiness=10
      echo vm.swappiness = 10 | sudo tee -a /etc/sysctl.conf
-```
+    ```
+3. Create /home/rstudio and make it writeable.
 
-3. Fire up an RStudio Server image. The rocker images work very well. I personally use the ropensci image. See https://github.com/rocker-org/rocker for more details. This command starts up a new container based on the rocker/ropensci image. Remember to change the password!
+4. Fire up an RStudio Server image. The rocker images work very well. I personally use the ropensci image. See https://github.com/rocker-org/rocker for more details. This command starts up a new container based on the rocker/ropensci image. Remember to change the password!
 
-```
-sudo docker run --restart always -d -p 80:8787 -v /home/rstudio:/home/rstudio -e PASSWORD=[Insert Password Here] --name ropensci_server rocker/ropensci
-```
+    ```
+    sudo docker run --restart always -d -p 80:8787 -v /home/rstudio:/home/rstudio -e PASSWORD=[Insert Password Here] --name ropensci_server rocker/ropensci
+    ```
 
-4. Fire up the postgresql image with adminer administration tool:
+5. Fire up the postgresql image with adminer administration tool:
 
-```
-sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
-sudo docker run -d -p 8080:80 --name adminer --link some-postgres:db quantumobject/docker-adminer
-```
+    ```
+    sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
+    sudo docker run -d -p 8080:80 --name adminer --link some-postgres:db quantumobject/docker-adminer
+    ```
 
-5. Access the adminer tool at [IP Address]:8080/adminer. Connect with server: some-postgres, user: postgres, database: postgres
+6. Access the adminer tool at [IP Address]:8080/adminer. Connect with server: some-postgres, user: postgres, database: postgres
 

@@ -32,5 +32,5 @@ sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d po
 sudo docker run -d -p 8080:80 --name adminer --link some-postgres:db quantumobject/docker-adminer
 ```
 
-
+5. Access the adminer tool at [IP Address]:8080/adminer. Connect with server: some-postgres, user: postgres, database: postgres
 

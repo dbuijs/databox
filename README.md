@@ -29,7 +29,7 @@ sudo docker run --restart always -d -p 80:8787 -v /home/rstudio:/home/rstudio -e
 
 ```
 sudo docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -d postgres
-sudo docker run -d -p 80 --name adminer --link some-postgres:db quantumobject/docker-adminer
+sudo docker run -d -p 8080:80 --name adminer --link some-postgres:db quantumobject/docker-adminer
 ```
 
 
